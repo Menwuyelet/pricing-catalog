@@ -51,12 +51,20 @@ pkg/catalog/                Canonical model, validation, serialization, queries
 pkg/connector/              Connector contract and reusable test helpers
 connectors/                  Provider connectors and reference examples
 cmd/pricing-catalog/         Small maintenance/validation CLI
+tasks/                       Candidate assignments (one TASK.md per provider/service)
 tests/                       Cross-connector tests
 docs/                        Architecture and contributor documentation
 internal/pipeline/           Canonical connector → validation → snapshot pipeline
 internal/evaluation/         Maintainer-only evaluation entry point
 .github/workflows/           Public CI
 ```
+
+## Getting started
+
+1. Open the `TASK.md` for your assigned task.
+2. Read the [root README](../README.md) and the docs it links to.
+3. Implement your connector under the `target_connector` path in the task's front matter.
+4. Open a pull request as described in the task's Submission section.
 
 ## Quick start
 
@@ -98,22 +106,30 @@ func main() {
 
 The public API is intentionally small. Consumers should query canonical data without knowing how any provider exposes its pricing.
 
-## Contributor and candidate entry points
+## For candidates
 
-Start with:
+1. Pick or receive an assignment from [`tasks/`](tasks/). Each task lives in
+   `tasks/<task-id>/TASK.md` and defines the provider, service, difficulty and
+   the connector directory you must implement.
+2. Read the background docs, in this order:
+   - [`docs/architecture.md`](docs/architecture.md)
+   - [`docs/pipeline.md`](docs/pipeline.md)
+   - [`docs/schema.md`](docs/schema.md)
+   - [`docs/connectors.md`](docs/connectors.md)
+3. Study the reference implementations:
+   - [`connectors/example-simple`](connectors/example-simple)
+   - [`connectors/example-complex`](connectors/example-complex)
+4. Implement your connector under `connectors/<provider>/<service>/`.
+5. Run `make check` before opening a pull request.
+6. Submit a pull request following [`CONTRIBUTING.md`](CONTRIBUTING.md) and the
+   submission section of your `TASK.md`.
 
-- [`docs/architecture.md`](docs/architecture.md)
-- [`docs/pipeline.md`](docs/pipeline.md)
-- [`docs/schema.md`](docs/schema.md)
-- [`docs/connectors.md`](docs/connectors.md)
+Available tasks are listed in [`tasks/README.md`](tasks/README.md).
+
+## For consumers and maintainers
+
 - [`docs/consumer.md`](docs/consumer.md)
-- [`ASSIGNMENT.md`](ASSIGNMENT.md)
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)
-
-Reference implementations:
-
-- [`connectors/example-simple`](connectors/example-simple)
-- [`connectors/example-complex`](connectors/example-complex)
 
 ## Status
 

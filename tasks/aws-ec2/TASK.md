@@ -2,6 +2,7 @@
 id: aws-ec2
 provider: aws
 service: ec2
+difficulty: medium
 target_connector: connectors/aws/ec2/
 ---
 

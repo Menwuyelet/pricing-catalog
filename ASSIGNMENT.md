@@ -1,5 +1,19 @@
 # Take-Home Assignment — Add a Cloud Pricing Connector
 
+# Assignment
+
+Your assignment is defined in the `TASK.md` file for the task you were given:
+
+    tasks/<task-id>/TASK.md
+
+See [`tasks/README.md`](tasks/README.md) for the list of tasks and the
+structure each one follows.
+
+All tasks share the same expectations: use the existing connector and
+normalization pipeline, do not bypass the canonical pricing model, do not
+require private credentials, and document any limitation of the canonical
+model rather than silently discarding information.
+
 ## Objective
 
 Add support for the assigned cloud provider to `pricing-catalog`.
