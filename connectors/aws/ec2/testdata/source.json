@@ -1,0 +1,238 @@
+{
+  "formatVersion": "v1.0",
+  "disclaimer": "Test fixture",
+  "offerCode": "AmazonEC2",
+  "version": "20240101000000",
+  "publicationDate": "2024-01-01T00:00:00Z",
+  "products": {
+    "SKU001": {
+      "sku": "SKU001",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "m5.xlarge",
+        "regionCode": "us-east-1",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "operatingSystem": "Linux",
+        "licenseModel": "No License required",
+        "tenancy": "Shared",
+        "preInstalledSw": "NA",
+        "vcpu": "4",
+        "memory": "16 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "BoxUsage:m5.xlarge",
+        "operation": "RunInstances",
+        "currentGeneration": "Yes"
+      }
+    },
+    "SKU002": {
+      "sku": "SKU002",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "m5.xlarge",
+        "regionCode": "eu-west-1",
+        "location": "EU (Ireland)",
+        "locationType": "AWS Region",
+        "operatingSystem": "Windows",
+        "licenseModel": "License Included",
+        "tenancy": "Shared",
+        "preInstalledSw": "NA",
+        "vcpu": "4",
+        "memory": "16 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "EU-BoxUsage:m5.xlarge",
+        "operation": "RunInstances:0002",
+        "currentGeneration": "Yes"
+      }
+    },
+    "SKU003": {
+      "sku": "SKU003",
+      "productFamily": "Storage",
+      "attributes": {
+        "regionCode": "us-east-1",
+        "tenancy": "Shared"
+      }
+    },
+    "SKU004": {
+      "sku": "SKU004",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "m5.xlarge",
+        "regionCode": "us-east-1",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "operatingSystem": "Linux",
+        "licenseModel": "No License required",
+        "tenancy": "Dedicated",
+        "preInstalledSw": "NA",
+        "vcpu": "4",
+        "memory": "16 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "DedicatedUsage:m5.xlarge",
+        "operation": "RunInstances",
+        "currentGeneration": "Yes"
+      }
+    },
+    "SKU005": {
+      "sku": "SKU005",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "c5.large",
+        "regionCode": "",
+        "location": "Any",
+        "locationType": "AWS Region",
+        "operatingSystem": "Linux",
+        "licenseModel": "No License required",
+        "tenancy": "Shared",
+        "vcpu": "2",
+        "memory": "4 GiB"
+      }
+    }
+  },
+  "terms": {
+    "OnDemand": {
+      "SKU001": {
+        "SKU001.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU001",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU001.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "SKU001.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Linux/UNIX (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.1920000000",
+                "CNY": "1.3440000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "SKU002": {
+        "SKU002.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU002",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU002.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "SKU002.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Windows (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.3760000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "SKU003": {
+        "SKU003.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU003",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU003.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "SKU003.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Storage",
+              "unit": "GB-Mo",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.0230000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "UNMATCHEDSKU": {
+        "UNMATCHEDSKU.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "UNMATCHEDSKU",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "UNMATCHEDSKU.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "UNMATCHEDSKU.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Unmatched product",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "1.0000000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      }
+    },
+    "Reserved": {
+      "SKU001": {
+        "SKU001.HU7G6KETJZ": {
+          "offerTermCode": "HU7G6KETJZ",
+          "sku": "SKU001",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU001.HU7G6KETJZ.2TG2D8R56U": {
+              "rateCode": "SKU001.HU7G6KETJZ.2TG2D8R56U",
+              "description": "Upfront Fee",
+              "unit": "Quantity",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "1100.0000000000"
+              }
+            },
+            "SKU001.HU7G6KETJZ.6YS6EN2CT7": {
+              "rateCode": "SKU001.HU7G6KETJZ.6YS6EN2CT7",
+              "description": "Linux/UNIX (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.0670000000"
+              }
+            }
+          },
+          "termAttributes": {
+            "LeaseContractLength": "1yr",
+            "PurchaseOption": "Partial Upfront",
+            "OfferingClass": "standard"
+          }
+        },
+        "SKU001.4NA7Y494T4": {
+          "offerTermCode": "4NA7Y494T4",
+          "sku": "SKU001",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU001.4NA7Y494T4.6YS6EN2CT7": {
+              "rateCode": "SKU001.4NA7Y494T4.6YS6EN2CT7",
+              "description": "Linux/UNIX (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.1230000000"
+              }
+            }
+          },
+          "termAttributes": {
+            "LeaseContractLength": "1yr",
+            "PurchaseOption": "No Upfront",
+            "OfferingClass": "standard"
+          }
+        }
+      }
+    }
+  }
+}
