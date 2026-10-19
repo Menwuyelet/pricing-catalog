@@ -90,6 +90,111 @@
         "vcpu": "2",
         "memory": "4 GiB"
       }
+    },
+    "SKU006": {
+      "sku": "SKU006",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "c5.large",
+        "regionCode": "us-east-1",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "operatingSystem": "Linux",
+        "licenseModel": "No License required",
+        "tenancy": "Shared",
+        "preInstalledSw": "NA",
+        "vcpu": "2",
+        "memory": "4 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "BoxUsage:c5.large",
+        "operation": "RunInstances",
+        "currentGeneration": "Yes"
+      }
+    },
+    "SKU007": {
+      "sku": "SKU007",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "t3.micro",
+        "regionCode": "ap-southeast-1",
+        "location": "Asia Pacific (Singapore)",
+        "locationType": "AWS Region",
+        "operatingSystem": "Linux",
+        "licenseModel": "No License required",
+        "tenancy": "Shared",
+        "preInstalledSw": "NA",
+        "vcpu": "2",
+        "memory": "1 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "APS1-BoxUsage:t3.micro",
+        "operation": "RunInstances",
+        "currentGeneration": "Yes"
+      }
+    },
+    "SKU008": {
+      "sku": "SKU008",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "m5.xlarge",
+        "regionCode": "us-east-1",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "operatingSystem": "RHEL",
+        "licenseModel": "No License required",
+        "tenancy": "Shared",
+        "preInstalledSw": "NA",
+        "vcpu": "4",
+        "memory": "16 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "BoxUsage:m5.xlarge",
+        "operation": "RunInstances:0010",
+        "currentGeneration": "Yes"
+      }
+    },
+    "SKU009": {
+      "sku": "SKU009",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "r5.large",
+        "regionCode": "us-east-1",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "operatingSystem": "Windows",
+        "licenseModel": "License Included",
+        "tenancy": "Shared",
+        "preInstalledSw": "SQL Std",
+        "vcpu": "2",
+        "memory": "16 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "BoxUsage:r5.large",
+        "operation": "RunInstances:0202",
+        "currentGeneration": "Yes"
+      }
+    },
+    "SKU010": {
+      "sku": "SKU010",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "instanceType": "m4.large",
+        "regionCode": "us-east-1",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "operatingSystem": "Linux",
+        "licenseModel": "No License required",
+        "tenancy": "Shared",
+        "preInstalledSw": "NA",
+        "vcpu": "2",
+        "memory": "8 GiB",
+        "processorArchitecture": "64-bit",
+        "capacitystatus": "Used",
+        "usagetype": "BoxUsage:m4.large",
+        "operation": "RunInstances",
+        "currentGeneration": "No"
+      }
     }
   },
   "terms": {
@@ -149,6 +254,116 @@
               "endRange": "Inf",
               "pricePerUnit": {
                 "USD": "0.0230000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "SKU006": {
+        "SKU006.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU006",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU006.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "SKU006.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Linux/UNIX (Amazon VPC), c5.large",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.0850000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "SKU007": {
+        "SKU007.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU007",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU007.JRTCKXETXF.TIER1": {
+              "rateCode": "SKU007.JRTCKXETXF.TIER1",
+              "description": "Linux/UNIX (Amazon VPC), t3.micro first 100 hours",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "100",
+              "pricePerUnit": {
+                "USD": "0.0104000000"
+              }
+            },
+            "SKU007.JRTCKXETXF.TIER2": {
+              "rateCode": "SKU007.JRTCKXETXF.TIER2",
+              "description": "Linux/UNIX (Amazon VPC), t3.micro over 100 hours",
+              "unit": "Hrs",
+              "beginRange": "100",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.0052000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "SKU008": {
+        "SKU008.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU008",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU008.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "SKU008.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Red Hat Enterprise Linux (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.2520000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "SKU009": {
+        "SKU009.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU009",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU009.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "SKU009.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Windows with SQL Std (Amazon VPC), r5.large",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.8760000000"
+              }
+            }
+          },
+          "termAttributes": {}
+        }
+      },
+      "SKU010": {
+        "SKU010.JRTCKXETXF": {
+          "offerTermCode": "JRTCKXETXF",
+          "sku": "SKU010",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU010.JRTCKXETXF.6YS6EN2CT7": {
+              "rateCode": "SKU010.JRTCKXETXF.6YS6EN2CT7",
+              "description": "Linux/UNIX (Amazon VPC), m4.large",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.1000000000"
               }
             }
           },
@@ -229,6 +444,104 @@
           "termAttributes": {
             "LeaseContractLength": "1yr",
             "PurchaseOption": "No Upfront",
+            "OfferingClass": "standard"
+          }
+        },
+        "SKU001.38NPMPTW36": {
+          "offerTermCode": "38NPMPTW36",
+          "sku": "SKU001",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU001.38NPMPTW36.2TG2D8R56U": {
+              "rateCode": "SKU001.38NPMPTW36.2TG2D8R56U",
+              "description": "Upfront Fee",
+              "unit": "Quantity",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "8280.0000000000"
+              }
+            },
+            "SKU001.38NPMPTW36.6YS6EN2CT7": {
+              "rateCode": "SKU001.38NPMPTW36.6YS6EN2CT7",
+              "description": "Linux/UNIX (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.0000000000"
+              }
+            }
+          },
+          "termAttributes": {
+            "LeaseContractLength": "3yr",
+            "PurchaseOption": "All Upfront",
+            "OfferingClass": "standard"
+          }
+        },
+        "SKU001.CUZHX8X6JH": {
+          "offerTermCode": "CUZHX8X6JH",
+          "sku": "SKU001",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU001.CUZHX8X6JH.2TG2D8R56U": {
+              "rateCode": "SKU001.CUZHX8X6JH.2TG2D8R56U",
+              "description": "Upfront Fee",
+              "unit": "Quantity",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "1250.0000000000"
+              }
+            },
+            "SKU001.CUZHX8X6JH.6YS6EN2CT7": {
+              "rateCode": "SKU001.CUZHX8X6JH.6YS6EN2CT7",
+              "description": "Linux/UNIX (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.0760000000"
+              }
+            }
+          },
+          "termAttributes": {
+            "LeaseContractLength": "1yr",
+            "PurchaseOption": "Partial Upfront",
+            "OfferingClass": "convertible"
+          }
+        }
+      },
+      "SKU002": {
+        "SKU002.6QCMYABX3D": {
+          "offerTermCode": "6QCMYABX3D",
+          "sku": "SKU002",
+          "effectiveDate": "2024-01-01T00:00:00Z",
+          "priceDimensions": {
+            "SKU002.6QCMYABX3D.2TG2D8R56U": {
+              "rateCode": "SKU002.6QCMYABX3D.2TG2D8R56U",
+              "description": "Upfront Fee",
+              "unit": "Quantity",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "2500.0000000000"
+              }
+            },
+            "SKU002.6QCMYABX3D.6YS6EN2CT7": {
+              "rateCode": "SKU002.6QCMYABX3D.6YS6EN2CT7",
+              "description": "Windows (Amazon VPC), m5.xlarge",
+              "unit": "Hrs",
+              "beginRange": "0",
+              "endRange": "Inf",
+              "pricePerUnit": {
+                "USD": "0.0000000000"
+              }
+            }
+          },
+          "termAttributes": {
+            "LeaseContractLength": "1yr",
+            "PurchaseOption": "All Upfront",
             "OfferingClass": "standard"
           }
         }
