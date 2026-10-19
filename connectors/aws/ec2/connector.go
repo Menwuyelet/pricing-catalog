@@ -105,19 +105,29 @@ func (c *Connector) getReader(ctx context.Context) (io.Reader, func(), error) {
 		return c.reader, nil, nil
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.sourceURL, nil)
+	client := c.httpClient
+	if client == nil {
+		client = &http.Client{Timeout: defaultTimeout}
+	}
+
+	targetURL := c.sourceURL
+	if targetURL == "" {
+		targetURL = sourceURL
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, targetURL, nil)
 	if err != nil {
 		return nil, nil, fmt.Errorf("create request: %w", err)
 	}
 
-	resp, err := c.httpClient.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, nil, fmt.Errorf("fetch source: %w", err)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		resp.Body.Close()
-		return nil, nil, fmt.Errorf("unexpected HTTP status %d from %s", resp.StatusCode, c.sourceURL)
+		return nil, nil, fmt.Errorf("unexpected HTTP status %d from %s", resp.StatusCode, targetURL)
 	}
 
 	cleanup := func() {

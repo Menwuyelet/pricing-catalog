@@ -5,13 +5,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
+	"pricing-catalog/internal/evaluation/runner"
+	"pricing-catalog/internal/pipeline"
 	"pricing-catalog/pkg/catalog"
 	"pricing-catalog/pkg/connector"
 	"pricing-catalog/pkg/connector/testkit"
@@ -1748,5 +1752,235 @@ func TestC5LargeOnDemand(t *testing.T) {
 	}
 	if rec.Dimensions["memory"] != "4 GiB" {
 		t.Errorf("memory: got %q, want %q", rec.Dimensions["memory"], "4 GiB")
+	}
+}
+
+// ---------- Day 4: Generic Pipeline Integration and Hardening Tests ----------
+
+// TestPipelineBuildSnapshot verifies that the EC2 connector integrates cleanly
+// with pipeline.BuildSnapshot to produce a valid, deterministically ordered snapshot.
+func TestPipelineBuildSnapshot(t *testing.T) {
+	conn := newFixtureConnector(t)
+	now := time.Date(2026, 10, 19, 12, 0, 0, 0, time.UTC)
+	options := pipeline.BuildOptions{
+		Version:     "v1.0.0",
+		GeneratedAt: now,
+	}
+
+	snapshot, err := pipeline.BuildSnapshot(context.Background(), conn, options)
+	if err != nil {
+		t.Fatalf("BuildSnapshot: %v", err)
+	}
+
+	if snapshot.Version != "v1.0.0" {
+		t.Errorf("Version: got %q, want %q", snapshot.Version, "v1.0.0")
+	}
+	if !snapshot.GeneratedAt.Equal(now) {
+		t.Errorf("GeneratedAt: got %v, want %v", snapshot.GeneratedAt, now)
+	}
+	if len(snapshot.Records) != 18 {
+		t.Fatalf("expected 18 records in snapshot, got %d", len(snapshot.Records))
+	}
+
+	// Verify all records validate using canonical schema validator.
+	if err := catalog.ValidateRecords(snapshot.Records); err != nil {
+		t.Fatalf("ValidateRecords on snapshot output: %v", err)
+	}
+}
+
+// TestPipelineBuildAndWriteJSONRoundTrip verifies end-to-end writing and parsing of
+// snapshots via pipeline.BuildAndWriteJSON and catalog.LoadJSON.
+func TestPipelineBuildAndWriteJSONRoundTrip(t *testing.T) {
+	conn := newFixtureConnector(t)
+	now := time.Date(2026, 10, 19, 12, 0, 0, 0, time.UTC)
+	options := pipeline.BuildOptions{
+		Version:     "v1.0.0-aws-ec2",
+		GeneratedAt: now,
+	}
+
+	var buf bytes.Buffer
+	if err := pipeline.BuildAndWriteJSON(context.Background(), conn, options, &buf); err != nil {
+		t.Fatalf("BuildAndWriteJSON: %v", err)
+	}
+
+	loaded, err := catalog.LoadJSON(&buf)
+	if err != nil {
+		t.Fatalf("catalog.LoadJSON: %v", err)
+	}
+
+	if loaded.Version != options.Version {
+		t.Errorf("loaded version: got %q, want %q", loaded.Version, options.Version)
+	}
+	if len(loaded.Records) != 18 {
+		t.Errorf("loaded records: got %d, want 18", len(loaded.Records))
+	}
+}
+
+// TestPipelineEmptyCatalogRejection verifies that when an EC2 connector produces no records,
+// the generic pipeline rejects it with pipeline.ErrEmptyCatalog.
+func TestPipelineEmptyCatalogRejection(t *testing.T) {
+	emptyInput := `{"products": {}, "terms": {}}`
+	conn := New(WithReader(strings.NewReader(emptyInput)))
+	options := pipeline.BuildOptions{
+		Version:     "v1.0.0",
+		GeneratedAt: time.Unix(0, 0).UTC(),
+	}
+
+	_, err := pipeline.BuildSnapshot(context.Background(), conn, options)
+	if err == nil {
+		t.Fatal("expected error for empty catalog")
+	}
+	if !errors.Is(err, pipeline.ErrEmptyCatalog) {
+		t.Fatalf("expected pipeline.ErrEmptyCatalog, got: %v", err)
+	}
+}
+
+// TestPipelineErrorPropagation verifies that connector decoding and source errors
+// are propagated through pipeline.BuildSnapshot wrapping connector.SourceError.
+func TestPipelineErrorPropagation(t *testing.T) {
+	badInput := `{"products": { malformed `
+	conn := New(WithReader(strings.NewReader(badInput)))
+	options := pipeline.BuildOptions{
+		Version:     "v1.0.0",
+		GeneratedAt: time.Unix(0, 0).UTC(),
+	}
+
+	_, err := pipeline.BuildSnapshot(context.Background(), conn, options)
+	if err == nil {
+		t.Fatal("expected error for malformed input")
+	}
+
+	var sourceErr *connector.SourceError
+	if !errors.As(err, &sourceErr) {
+		t.Errorf("error should wrap *connector.SourceError, got: %v", err)
+	}
+}
+
+// TestEvaluationRunnerFactoryCompatibility verifies compatibility with the maintainer
+// evaluation runner factory signature func(io.Reader) connector.Connector.
+func TestEvaluationRunnerFactoryCompatibility(t *testing.T) {
+	factory := runner.Factory(func(r io.Reader) connector.Connector {
+		return New(WithReader(r))
+	})
+
+	c := factory(bytes.NewReader(loadFixture(t)))
+	records, err := c.Fetch(context.Background())
+	if err != nil {
+		t.Fatalf("factory connector Fetch: %v", err)
+	}
+	if len(records) != 18 {
+		t.Fatalf("expected 18 records from factory-instantiated connector, got %d", len(records))
+	}
+}
+
+// TestHardenNilHTTPClient verifies that getReader falls back safely when WithHTTPClient(nil) is passed.
+func TestHardenNilHTTPClient(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(loadFixture(t))
+	}))
+	defer server.Close()
+
+	conn := New(WithHTTPClient(nil), WithSourceURL(server.URL))
+	records, err := conn.Fetch(context.Background())
+	if err != nil {
+		t.Fatalf("Fetch with nil HTTPClient option: %v", err)
+	}
+	if len(records) != 18 {
+		t.Errorf("expected 18 records, got %d", len(records))
+	}
+}
+
+// TestHardenEmptyBillingUnitWhitespace verifies that whitespace-only billing unit returns an error.
+func TestHardenEmptyBillingUnitWhitespace(t *testing.T) {
+	input := `{
+		"products": {
+			"SKU001": {
+				"sku": "SKU001",
+				"productFamily": "Compute Instance",
+				"attributes": {
+					"instanceType": "m5.xlarge",
+					"regionCode": "us-east-1",
+					"tenancy": "Shared"
+				}
+			}
+		},
+		"terms": {
+			"OnDemand": {
+				"SKU001": {
+					"SKU001.JRTCKXETXF": {
+						"offerTermCode": "JRTCKXETXF",
+						"sku": "SKU001",
+						"effectiveDate": "2024-01-01T00:00:00Z",
+						"priceDimensions": {
+							"SKU001.JRTCKXETXF.6YS6EN2CT7": {
+								"rateCode": "SKU001.JRTCKXETXF.6YS6EN2CT7",
+								"description": "test",
+								"unit": "   ",
+								"beginRange": "0",
+								"endRange": "Inf",
+								"pricePerUnit": {"USD": "0.10"}
+							}
+						},
+						"termAttributes": {}
+					}
+				}
+			}
+		}
+	}`
+	conn := New(WithReader(strings.NewReader(input)))
+	_, err := conn.Fetch(context.Background())
+	if err == nil {
+		t.Fatal("expected error for whitespace-only billing unit")
+	}
+	if !strings.Contains(err.Error(), "empty billing unit") {
+		t.Errorf("expected empty billing unit error, got: %v", err)
+	}
+}
+
+// BenchmarkConnectorFetch measures throughput and allocations of parsing the representative fixture.
+func BenchmarkConnectorFetch(b *testing.B) {
+	data, err := os.ReadFile(filepath.Join("testdata", "source.json"))
+	if err != nil {
+		b.Fatalf("read fixture: %v", err)
+	}
+
+	b.ResetTimer()
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		conn := New(WithReader(bytes.NewReader(data)))
+		records, err := conn.Fetch(context.Background())
+		if err != nil {
+			b.Fatal(err)
+		}
+		if len(records) != 18 {
+			b.Fatalf("expected 18 records, got %d", len(records))
+		}
+	}
+}
+
+// BenchmarkPipelineBuildSnapshot measures throughput and allocations through the entire pipeline.
+func BenchmarkPipelineBuildSnapshot(b *testing.B) {
+	data, err := os.ReadFile(filepath.Join("testdata", "source.json"))
+	if err != nil {
+		b.Fatalf("read fixture: %v", err)
+	}
+	options := pipeline.BuildOptions{
+		Version:     "bench",
+		GeneratedAt: time.Date(2026, 10, 19, 0, 0, 0, 0, time.UTC),
+	}
+
+	b.ResetTimer()
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		conn := New(WithReader(bytes.NewReader(data)))
+		snapshot, err := pipeline.BuildSnapshot(context.Background(), conn, options)
+		if err != nil {
+			b.Fatal(err)
+		}
+		if len(snapshot.Records) != 18 {
+			b.Fatalf("expected 18 records, got %d", len(snapshot.Records))
+		}
 	}
 }

@@ -135,16 +135,17 @@ func normalizePurchaseModel(termType string) (string, error) {
 }
 
 func normalizeBillingUnit(unit string) (string, error) {
-	if unit == "" {
+	trimmed := strings.TrimSpace(unit)
+	if trimmed == "" {
 		return "", fmt.Errorf("empty billing unit")
 	}
-	switch unit {
+	switch trimmed {
 	case "Hrs":
 		return "hour", nil
 	case "Quantity":
 		return "quantity", nil
 	default:
-		return strings.ToLower(unit), nil
+		return strings.ToLower(trimmed), nil
 	}
 }
 
